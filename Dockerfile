@@ -18,7 +18,8 @@ COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
 
-RUN apk add curl
+RUN apk add py-pip curl
+RUN pip install awscli
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["help"]
