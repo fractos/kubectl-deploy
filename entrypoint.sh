@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 # Extract the base64 encoded config data and write this to the KUBECONFIG
 echo "$KUBE_CONFIG_DATA" | base64 -d > /tmp/config
 export KUBECONFIG=/tmp/config
@@ -12,9 +10,12 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VER
 
 echo "Applying deployment ${DEPLOYMENT_FILE}..."
 
-if [ kubectl apply -f ${DEPLOYMENT_FILE} ]; then
+kubectl apply -f ${DEPLOYMENT_FILE}
+
+if [ $? -eq 0 ]; then
   echo "Verifying deployment status..."
-  if [ kubectl rollout status deployment/${DEPLOYMENT_NAME} 2> deployment-error.txt ]; then
+  kubectl rollout status deployment/${DEPLOYMENT_NAME} 2> deployment-error.txt
+  if [ $? -eq 0 ]; then
     echo "Deployment rollout verified"
     exit 0
   else
