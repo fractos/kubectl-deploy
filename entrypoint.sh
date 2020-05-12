@@ -11,12 +11,12 @@ echo "Downloading kubectl ${KUBECTL_VERSION}"
 curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl 2> /dev/null && chmod +x kubectl && mv kubectl /usr/local/bin
 
 echo "Applying deployment ${DEPLOYMENT_FILE}..."
-sh -c "kubectl apply -f ${DEPLOYMENT_FILE}"
+kubectl apply -f ${DEPLOYMENT_FILE}
 
 if [ $? -eq 0 ]
 then
   echo "Verifying deployment status..."
-  sh -c "kubectl rollout status deployment/${DEPLOYMENT_NAME} | tee rollout.txt"
+  kubectl rollout status deployment/${DEPLOYMENT_NAME} | tee rollout.txt
   if [ $? -eq 0 ]
   then
     echo "Deployment rollout verified"
