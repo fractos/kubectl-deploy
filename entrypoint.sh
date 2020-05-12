@@ -6,6 +6,8 @@ set -e
 echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/config
 export KUBECONFIG=/tmp/config
 
+echo "Downloading kubectl ${KUBECTL_VERSION}"
+
 curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl && chmod +x kubectl && mv kubectl /usr/local/bin
 
 sh -c "kubectl --version --short""
