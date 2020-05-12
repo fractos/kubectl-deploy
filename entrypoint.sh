@@ -21,10 +21,11 @@ if [ $? -eq 0 ]; then
   else
     echo "Deployment rollout failed!"
     cat deployment-error.txt
+    echo "Rolling back deployment..."
+    kubectl rollout undo deployment/${DEPLOYMENT_NAME}
     exit 1
   fi
 else
   echo "Deployment could not be applied!"
   exit 1
 fi
-
