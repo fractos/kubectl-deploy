@@ -17,7 +17,7 @@ if [ $? -eq 0 ]
 then
   echo "Verifying deployment status..."
   sh -c "kubectl rollout status deployment/${DEPLOYMENT_NAME} | tee rollout.txt"
-  if [ $? -eq 0]
+  if [ $? -eq 0 ]
   then
     echo "Deployment rollout verified"
     exit 0
