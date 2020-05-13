@@ -21,11 +21,31 @@ if [ $? -eq 0 ]; then
   else
     echo "Deployment rollout failed!"
     cat deployment-error.txt
-    echo "Rolling back deployment..."
-    kubectl rollout undo deployment/${DEPLOYMENT_NAME}
-    exit 1
+    grep "exceeded its progress deadline" deployment-error.txt
+    if [ $? -eq 0 ]; then
+      echo "Deployment exceeded its progress deadline, rolling back deployment..."
+      kubectl rollout undo deployment/${DEPLOYMENT_NAME}
+      if [ $? -eq 0 ]; then
+        echo "Verifying rollback..."
+        kubectl rollout status deployment/${DEPLOYMENT_NAME}
+        if [ $? -eq 0 ]; then
+          echo "Deployment rollback completed"
+          echo "::set-output name=status::rollbacksuccess"
+        else
+          echo "Deployment rollback failed!"
+          echo "::set-output name=status::rollbackfailed"
+        fi
+      else
+        echo "Couldn't rollback deployment!"
+        echo "::set-output name=status::rollbackerror"
+      fi
+    else
+      echo "Some other error occurred during rollout status check. No rollback."
+      echo "::set-output name=status::deployerror"
+    fi
   fi
 else
   echo "Deployment could not be applied!"
-  exit 1
+  echo "::set-output name=status::deployfailed"
 fi
+exit 1
