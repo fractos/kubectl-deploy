@@ -16,20 +16,14 @@ jobs:
     name: deploy to cluster
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: deploy to cluster
-      uses: fractos/kubectl@master
+    - name: Test Deployment
+      id: test-deployment
+      uses: fractos/kubectl-deploy@master
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-      with:
-        args: set image --record deployment/my-app container=${{ github.repository }}:${{ github.sha }}
-    - name: verify deployment
-      uses: fractos/kubectl@master
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-        KUBECTL_VERSION: "1.15"
-      with:
-        args: '"rollout status deployment/my-app"'
+        KUBECTL_VERSION: v1.14.10
+        DEPLOYMENT_FILE: deployment.yml
+        DEPLOYMENT_NAME: hello-world
 ```
 
 ## Secrets
@@ -42,6 +36,7 @@ cat $HOME/.kube/config | base64
 
 ## Environment
 
-`KUBECTL_VERSION` - (optional): Used to specify the kubectl version. If not specified, this defaults to kubectl 1.13
+`KUBECTL_VERSION` - (optional): Used to specify the kubectl version. If not specified, this defaults to kubectl v1.13.12
 
-**Note**: Do not use kubectl config view as this will hide the certificate-authority-data.
+`DEPLOYMENT_FILE` -: The name of the deployment manifest to apply.
+`DEPLOYMENT_NAME` -: The name of the deployment itself (without the `deployment/` prefix).
