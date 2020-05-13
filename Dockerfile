@@ -1,6 +1,6 @@
 FROM alpine
 
-LABEL version="1.0.10"
+LABEL version="1.0.11"
 LABEL name="kubectl-deploy"
 LABEL repository="http://github.com/fractos/kubectl-deploy"
 LABEL homepage="http://github.com/fractos/kubectl-deploy"
@@ -12,7 +12,8 @@ LABEL com.github.actions.icon="refresh-cw"
 LABEL com.github.actions.color="green"
 
 ENV KUBECTL_VERSION "v1.13.12"
-ENV DRY_RUN ""
+ENV APPLY_FLAGS ""
+ENV UNDO_FLAGS ""
 
 COPY LICENSE README.md /
 COPY entrypoint.sh /entrypoint.sh
