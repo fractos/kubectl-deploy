@@ -40,3 +40,4 @@ cat $HOME/.kube/config | base64
 
 `DEPLOYMENT_FILE` -: The name of the deployment manifest to apply.
 `DEPLOYMENT_NAME` -: The name of the deployment itself (without the `deployment/` prefix).
+`DRY_RUN` - (optional): Defaults to empty. Set to "--server-dry-run" (or the appropriate instruction for the kubectl version) to modify the `kubectl apply` and `kubectl rollout undo` commands.

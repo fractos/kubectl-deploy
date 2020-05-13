@@ -10,7 +10,7 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VER
 
 echo "Applying deployment ${DEPLOYMENT_FILE}..."
 
-kubectl apply -f ${DEPLOYMENT_FILE}
+kubectl apply -f ${DEPLOYMENT_FILE} ${DRY_RUN}
 
 if [ $? -eq 0 ]; then
   echo "Verifying deployment status..."
@@ -24,7 +24,7 @@ if [ $? -eq 0 ]; then
     grep "exceeded its progress deadline" deployment-error.txt
     if [ $? -eq 0 ]; then
       echo "Deployment exceeded its progress deadline, rolling back deployment..."
-      kubectl rollout undo deployment/${DEPLOYMENT_NAME}
+      kubectl rollout undo deployment/${DEPLOYMENT_NAME} ${DRY_RUN}
       if [ $? -eq 0 ]; then
         echo "Verifying rollback..."
         kubectl rollout status deployment/${DEPLOYMENT_NAME}
