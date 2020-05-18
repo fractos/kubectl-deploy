@@ -1,6 +1,6 @@
 FROM alpine
 
-LABEL version="1.0.12"
+LABEL version="1.0.13"
 LABEL name="kubectl-deploy"
 LABEL repository="http://github.com/fractos/kubectl-deploy"
 LABEL homepage="http://github.com/fractos/kubectl-deploy"
