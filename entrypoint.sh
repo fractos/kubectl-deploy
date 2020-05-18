@@ -22,7 +22,7 @@ if [ $? -eq 0 ]; then
     echo "Deployment rollout failed!"
     cat deployment-error.txt
     grep "exceeded its progress deadline" deployment-error.txt
-    if [ $? -eq 0 ]; then
+    if [ $? -eq 0 && ${ATTEMPT_ROLLBACK} -eq 1 ]; then
       echo "Deployment exceeded its progress deadline, rolling back deployment..."
       kubectl rollout undo deployment/${DEPLOYMENT_NAME} ${UNDO_FLAGS}
       if [ $? -eq 0 ]; then
