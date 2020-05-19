@@ -61,8 +61,8 @@ cat $HOME/.kube/config | base64
 ## Environment
 
 `KUBECTL_VERSION` - (optional): Used to specify the kubectl version. If not specified, this defaults to kubectl v1.13.12
-
 `DEPLOYMENT_FILE` -: The name of the deployment manifest to apply.
 `DEPLOYMENT_NAME` -: The name of the deployment itself (without the `deployment/` prefix).
 `APPLY_FLAGS` - (optional): Defaults to empty. Set to "--server-dry-run" (or the appropriate instruction for the kubectl version) to perform a dry run of the `kubectl apply` command.
 `UNDO_FLAGS` - (optional): Defaults to empty. Set to "--server-dry-run" (or the appropriate instruction for the kubectl version) to perform a dry run of the `kubectl rollout undo` command.
+`ATTEMPT_ROLLBACK` - (optional): Defaults to "1". Set to "0" to not attempt a rollback if failure of the deployment has been explicitly detected.
